@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link href="https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-grey-lighter">
+    <div id="app" class="flex flex-col justify-center items-center">
+        <div class="bg-white p-4 shadow">
+            {{ message }}
+            <button class="bg-blue-500 font-bold px-4 py-2 rounded-full" @click="getData()">Get Data</button>   
+            <h1>{{ person.name }}</h1>
+            <p>{{ person.height }}</p>
+        </div>
+        <input type="text" class ="bg-grey border-2 border-grey-dark mt-4 text-4xl" v-model="personId">
+    </div>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script> 
+    <script>
+        var app = new Vue({
+        el: '#app',
+        data: {
+            message: 'Hello Vue!',
+            person: {},
+            personId: 1,
+        }, methods: {
+            getData() {
+                //alert('hello!');
+                // Make a request for a user with a given ID
+                axios.get('process.php?person='+app.personId).then(function (response) {  //response is the echoed result in process.php
+                    // handle success
+                    console.log(response);
+                    //console.log(response.data);
+                    app.person = response.data;
+                })
+            }
+        }
+})
+    </script>
+</body>
+</html>
